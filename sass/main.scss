@@ -1,0 +1,100 @@
+//you can store values inside of another scss and call them with import
+@import "variables";
+@import "function";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: $light-color;
+  color: $dark-color;
+  font-family: $font-stack;
+  line-height: 1.5;
+}
+
+header {
+  background: $dark-color;
+  color: set-text-color($dark-color);
+  padding: 1rem;
+
+  //instead of creating new line for child elements you can set them up inside of parent element and structure them with hierarchy
+
+  h1 {
+    text-align: center;
+  }
+}
+
+// header h1 {
+//     text-align: center;
+// }
+
+.section {
+  padding: 3rem;
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  //& means parents name so it will be 'section' + '-a' which is basically 'section-a'
+  &-a {
+    background: $primary-color;
+    color: set-text-color($primary-color);
+  }
+
+  &-b {
+    background: $secondary-color;
+    color: set-text-color($secondary-color);
+  }
+}
+
+// you can do same thing with functions. so, we don't need it anymore.
+// a {
+//   color: $dark-color;
+
+// you can use & also with pseudo classes
+//   &:hover {
+//     color: $light-color;
+//   }
+// }
+
+//also you can unite the common properties to inside of element which starting name with '%' then you can call this element with '@extend%element_name;' from other elements
+%btn-shared {
+  display: inline-block;
+  padding: 0.7rem 2rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.btn {
+  &-light {
+    //with extend you can inherit the variables from btn-shared to create skeleton features without typing over and over
+    @extend %btn-shared;
+    background-color: $light-color;
+    color: set-text-color($light-color);
+
+    &:hover {
+      //you call mixin with include
+      @include transform(rotate(20deg));
+
+      //darken is pre-defined function
+      background-color: darken($color: $light-color, $amount: 10%);
+    }
+  }
+
+  &-dark {
+    @extend %btn-shared;
+    background-color: $dark-color;
+    color: set-text-color($dark-color);
+
+    &:hover {
+      @include transform(rotate(-20deg));
+
+      //same with darken, lighten so on..
+      background-color: lighten($color: $dark-color, $amount: 10%);
+    }
+  }
+}
